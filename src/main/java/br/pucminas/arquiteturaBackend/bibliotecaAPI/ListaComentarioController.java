@@ -53,17 +53,16 @@ public class ListaComentarioController {
     @ApiOperation(value = "Remove uma crítica do livro", response = Void.class)
     @DeleteMapping("criticas/{isbn}/{idCritica}")
     void deleteCritica(@PathVariable String isbn, @PathVariable Long idCritica) {
-        
+
         Livro livro = obterLivroBy(isbn);
 
         if (null != livro) {
             livro.getListaCritica()
                     .removeIf(l -> l.getId().equals(idCritica));
-                    
+
         }
     }
 
-    
     @ApiOperation(value = "Busca lista de reputação de um livro", response = List.class)
     @GetMapping("reputacoes/{isbn}")
     public List<Reputacao> todasReputacoes(@PathVariable String isbn) {
@@ -93,29 +92,29 @@ public class ListaComentarioController {
     @ApiOperation(value = "Remove uma reputação do livro", response = Void.class)
     @DeleteMapping("reputacoes/{isbn}/{idCritica}")
     void deleteReputacao(@PathVariable String isbn, @PathVariable Long idReputacao) {
-        
+
         Livro livro = obterLivroBy(isbn);
 
         if (null != livro) {
             livro.getListaReputacao()
                     .removeIf(l -> l.getId().equals(idReputacao));
-                    
+
         }
     }
-    
+
     private Livro obterLivroBy(String isbn) {
-        
+
         Livro livro = livros.stream()
                 .filter(p -> p.getIsbn().equals(isbn))
                 .findFirst()
                 .orElse(null);
-        
+
         if (null == livro) {
             livro = new Livro();
             livro.setIsbn(isbn);
             livros.add(livro);
         }
-        
+
         return livro;
     }
 
